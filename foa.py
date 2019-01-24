@@ -4,7 +4,8 @@ author: liujingmin
 
 I like it to be useful to you
 '''
-from random import random
+import numpy as np
+from random import random, sample
 
 
 def foa(maxgen, sizepop, obj_func, param_dim=2, param_thresh=[]):
@@ -72,7 +73,8 @@ def foa(maxgen, sizepop, obj_func, param_dim=2, param_thresh=[]):
 
     # 找出此果蝇群里中味道浓度最低的果蝇（求极小值）
     bestSmell = min(smell_list);
-    bestindex = smell_list.index(bestSmell)
+#     bestindex = smell_list.index(bestSmell)
+    bestindex = sample(np.where(np.array(smell_list)==bestSmell)[0].tolist(), 1)[0]
 
     #保留最佳味道浓度值与坐标，此时果蝇群利用视觉往该位置飞去
     params_init = params_list[bestindex]
@@ -90,8 +92,9 @@ def foa(maxgen, sizepop, obj_func, param_dim=2, param_thresh=[]):
             smell_list[i] = obj_func(*(params_list[i]))
 
         #找出此果蝇群里中味道浓度最低的果蝇（求极小值）
-        bestSmell = min(smell_list);
-        bestindex = smell_list.index(bestSmell)
+        bestSmell = min(smell_list)
+        bestindex = sample(np.where(np.array(smell_list)==bestSmell)[0].tolist(), 1)[0]
+#         bestindex = smell_list.index(bestSmell)
 
         #判断味道浓度是否优于前一次迭代味道浓度，若是则保留最佳味道浓度值与x，y的坐标，此时果蝇群体利用视觉往该位置飞去
         if bestSmell < Smellbest:
