@@ -63,8 +63,11 @@ def foa(maxgen, sizepop, obj_func, param_dim=2, param_thresh=[]):
     # 果蝇寻优开始，利用嗅觉寻找食物
     for i in range(sizepop):
         #赋予果蝇个体利用嗅觉搜寻食物之随机方向与距离
-        params_list[i] = [params_init[num]+params_vibration[num]*(2*random()-1) \
+        tmp = [params_init[num]+params_vibration[num]*(2*random()-1) \
                 for num in range(param_dim)]
+        tmp = [min(max(tmp[num], param_thresh[num][0]), param_thresh[num][1]) \
+                for num in range(param_dim)]
+        params_list[i] = tmp
         smell_list[i] = obj_func(*(params_list[i]))
 
     # 找出此果蝇群里中味道浓度最低的果蝇（求极小值）
@@ -79,8 +82,11 @@ def foa(maxgen, sizepop, obj_func, param_dim=2, param_thresh=[]):
     for g in range(maxgen):
         #赋予果蝇个体利用嗅觉搜寻食物的随机方向和距离
         for i in range(sizepop):
-            params_list[i] = [params_init[num]+params_vibration[num]*(2*random()-1) \
+            tmp = [params_init[num]+params_vibration[num]*(2*random()-1) \
                     for num in range(param_dim)]
+            tmp = [min(max(tmp[num], param_thresh[num][0]), param_thresh[num][1]) \
+                    for num in range(param_dim)]
+            params_list[i] = tmp
             smell_list[i] = obj_func(*(params_list[i]))
 
         #找出此果蝇群里中味道浓度最低的果蝇（求极小值）
